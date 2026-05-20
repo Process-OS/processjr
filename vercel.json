@@ -1,5 +1,5 @@
 {
   "cleanUrls": true,
-  "buildCommand": "pip install -r documentation/requirements.txt --break-system-packages && mkdocs build --config-file documentation/mkdocs.yml",
+  "buildCommand": "pip install -r documentation/requirements.txt --break-system-packages && python3 -m mkdocs build --config-file documentation/mkdocs.yml",
   "outputDirectory": "documentation/site"
 }
