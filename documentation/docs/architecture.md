@@ -8,48 +8,48 @@ ProcessJR is built as a highly decoupled, service-oriented platform designed to 
 
 ```mermaid
 graph TD
-    %% UI Layer
-    UI["Web / Mobile UI <br> (Next.js / React)"]
+    %% Nodes
+    UI["Web UI <br> (Vite / React / TS)"]
     
-    %% Gateway Layer
-    GW["API Gateway Layer <br> (NestJS)"]
-    
-    %% Core Services
-    subgraph Core Services ["Core Services"]
-        Auth["Auth & RBAC Service"]
-        PE["Process Engine <br> (Workflows/SOPs)"]
-        KE["Knowledge Engine <br> (Docs + SOPs + AI)"]
+    subgraph BM ["Backend Microservices"]
+        GW["Core Gateway & State Service"]
+        IT["Ingestion & Training Microservice"]
     end
     
-    %% AI Layer
-    AI["AI Service <br> (RAG + LLM Orches.)"]
-    
-    %% Data Layer
-    subgraph Data Layer ["Data Layer"]
-        DL["PostgreSQL | Redis | Vector DB | S3"]
+    subgraph AM ["AI Models"]
+        OS["Default Open-Source Model"]
+        FT["Fine-Tuned Organization Model"]
     end
-
-    %% Flow
-    UI --> GW
-    GW --> Auth & PE & KE
-    Auth & PE & KE --> AI
-    AI --> DL
-
-    %% Styling
-    style Core Services fill:#1e1e38,stroke:#4f46e5,stroke-width:2px,color:#fff
-    style Data Layer fill:#111c24,stroke:#f59e0b,stroke-width:2px,color:#fff
     
-    classDef ui fill:#4F46E5,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef gateway fill:#06B6D4,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef services fill:#10B981,stroke:#fff,stroke-width:1px,color:#fff;
-    classDef ai fill:#D97706,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef datalayer fill:#1F2937,stroke:#fff,stroke-width:1px,color:#fff;
+    DB[("Central Database <br> (File-backed SQLite / pgvector)")]
+
+    %% Flows & Connections
+    UI -->|"Queries / Governance"| GW
+    UI -->|"Document Uploads"| IT
+    
+    GW -->|"Common Questions"| OS
+    GW -->|"Procedures / SOP Queries"| FT
+    GW -->|"Relational State & Analytics"| DB
+    
+    IT -->|"Ingests & Tokenizes Data"| FT
+    IT -->|"Updates Model Telemetry & State"| DB
+    
+    FT -->|"Continuous Weight Adaptation"| FT
+
+    %% Styling & Classes
+    style BM fill:#1e1e2e,stroke:#3b3b4f,stroke-width:2px,color:#fff
+    style AM fill:#181825,stroke:#313244,stroke-width:2px,color:#fff
+    style DB fill:#1e1e2e,stroke:#cdd6f4,stroke-width:2px,color:#cdd6f4
+
+    classDef ui fill:#4f46e5,stroke:#cdd6f4,stroke-width:2px,color:#fff;
+    classDef gateway fill:#06b6d4,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef ingester fill:#10b981,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef ai fill:#313244,stroke:#cdd6f4,stroke-width:1.5px,color:#cdd6f4;
     
     class UI ui;
     class GW gateway;
-    class Auth,PE,KE services;
-    class AI ai;
-    class DL datalayer;
+    class IT ingester;
+    class OS,FT ai;
 ```
 
 ---
