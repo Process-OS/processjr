@@ -10,5 +10,5 @@ COPY documentation/ /docs
 
 EXPOSE 8000
 
-# Serve the site on all interfaces so it's accessible outside the container
-CMD ["mkdocs", "serve", "-a", "0.0.0.0:8000"]
+# Serve the site on all interfaces so it's accessible outside the container, respecting $PORT on Cloud Run
+CMD ["sh", "-c", "mkdocs serve -a 0.0.0.0:${PORT:-8000}"]
