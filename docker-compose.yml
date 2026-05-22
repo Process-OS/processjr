@@ -1,21 +1,4 @@
 services:
-  # --- PROCESSJR DOCS ---
-  processjs-docs:
-    image: ghcr.io/${GITHUB_USERNAME}/blockchain-docs:latest
-    build:
-      context: ./peerpay-docs-blockchain-tree
-      dockerfile: Dockerfile
-    container_name: blockchain-docs
-    restart: unless-stopped
-    ports:
-      - "8001:8000"
-    volumes:
-      # Access Docker daemon to start organization containers
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - blockchain-service-net
-      - fabric_network_instance
-
   # --- PROCESSJR OPERATIONAL DOCS ---
   processjr-docs:
     build:
@@ -27,13 +10,3 @@ services:
       - "8000:8000"
     volumes:
       - ./documentation:/docs
-
-networks:
-  blockchain-service-net:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1400
-  fabric_network_instance:
-    name: fabric_network_instance
-    external: true
-
